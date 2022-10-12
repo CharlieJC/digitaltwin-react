@@ -9,6 +9,7 @@ import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 
 import RegisterPage from "./pages/register"
 import LoginPage from './pages/login';
+import ConnectPage from './pages/connect';
 
 
 // https://blog.testdouble.com/posts/2019-11-04-react-mvc/
@@ -30,8 +31,9 @@ function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path="/" element={<RegisterPage />}/>
+          <Route path="/" element={<ConnectPage />}/>
           <Route path="/login" element={<LoginPage />}/>
+          <Route path="/register" element={<RegisterPage />}/>
 
         </Routes>
       </Router>
