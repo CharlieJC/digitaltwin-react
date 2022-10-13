@@ -1,13 +1,14 @@
-import LoginForm from "../components/login-form";
-import { Grid, Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Grid, Button, Link } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import LoginForm from '../components/login-form'
 
-
-const LoginPage = () => {
+function LoginPage() {
   return (
-    <Grid container spacing={2} style={{ textAlign: "center" }}>
-      <Grid item xs={12} style={{ textAlign: "start" }}>
-      <NavLink to="/"><Button variant="text">back</Button></NavLink>
+    <Grid container spacing={2} style={{ textAlign: 'center' }}>
+      <Grid item xs={12} style={{ textAlign: 'start' }}>
+        <Button component={RouterLink} to='/'>
+          Back
+        </Button>
       </Grid>
       <Grid item xs={12}>
         <h2>Login to your account!</h2>
@@ -16,10 +17,15 @@ const LoginPage = () => {
         <LoginForm />
       </Grid>
       <Grid item xs={12}>
-      <p>Don't have an account? <NavLink to="/register">Create one here</NavLink></p>
+        <p>
+          Don&apost have an account?{' '}
+          <Link component={RouterLink} to='/register'>
+            Create account
+          </Link>
+        </p>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
