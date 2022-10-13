@@ -1,12 +1,12 @@
-import { Link as RouterLink } from "react-router-dom";
-import { Grid, Button } from "@mui/material";
-import RegisterForm from "../components/register-form";
+import { Link as RouterLink } from 'react-router-dom'
+import { Grid, Button } from '@mui/material'
+import RegisterForm from '../components/register-form'
 
 function RegisterPage() {
   return (
-    <Grid container spacing={2} style={{ textAlign: "center" }}>
-      <Grid item xs={12} style={{ textAlign: "start" }}>
-        <Button component={RouterLink} to="/login">
+    <Grid container spacing={2} style={{ textAlign: 'center' }}>
+      <Grid item xs={12} style={{ textAlign: 'start' }}>
+        <Button component={RouterLink} to='/login'>
           Back
         </Button>
       </Grid>
@@ -17,7 +17,7 @@ function RegisterPage() {
         <RegisterForm />
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default RegisterPage;
+export default RegisterPage
