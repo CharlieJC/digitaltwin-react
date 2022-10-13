@@ -1,6 +1,6 @@
 jobs:
   build:
-    machine:
+    docker:
       image: circleci/node:18-browsers
     steps:
       - checkout
