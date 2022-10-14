@@ -3,13 +3,15 @@ import { CircularProgress, Alert, Grid, Button } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
 import { ReactElement } from 'react'
 import Map from '../components/map'
-import SwipeableEdgeDrawer from '../components/map-drawer'
+import SwipeableEdgeDrawer from '../components/twin-drawer-small'
 
 function TwinPage() {
   // Auckland center
   const center = { lat: -36.848461, lng: 174.763336 }
   // zoom to cbd
-  const zoom = 12
+  const zoom = 18
+
+  const mapId = process.env.REACT_APP_MAP_ID
 
   const render = (status: Status): ReactElement => {
     if (status === Status.FAILURE)
@@ -25,11 +27,8 @@ function TwinPage() {
         </Button>
       </Grid>
       <Grid item xs={12}>
-        <Wrapper
-          apiKey={process.env.REACT_APP_GOOGLE_API_KEY ? process.env.REACT_APP_GOOGLE_API_KEY : ''}
-          render={render}
-        >
-          <Map center={center} zoom={zoom} />
+        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_API_KEY || ''} render={render}>
+          <Map center={center} zoom={zoom} mapId={mapId || ''} tilt={30} heading={0} />
         </Wrapper>
       </Grid>
       <Grid item xs={12}>
