@@ -1,11 +1,23 @@
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
-import { CircularProgress, Alert, Grid, Button } from '@mui/material'
+import {
+  CircularProgress,
+  Alert,
+  Box,
+  Paper,
+  BottomNavigation,
+  BottomNavigationAction,
+} from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
+import * as React from 'react'
 import { ReactElement } from 'react'
-import Map from '../components/map'
+import RestoreIcon from '@mui/icons-material/Restore'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
 import SwipeableEdgeDrawer from '../components/twin-drawer-small'
+import Map from '../components/map'
 
 function TwinPage() {
+  const [value, setValue] = React.useState(0)
   // Auckland center
   const center = { lat: -36.848461, lng: 174.763336 }
   // zoom to cbd
@@ -20,21 +32,29 @@ function TwinPage() {
   }
 
   return (
-    <Grid container spacing={2} style={{ textAlign: 'center' }}>
-      <Grid item xs={12} style={{ textAlign: 'start' }}>
-        <Button component={RouterLink} to='/'>
-          Exit
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_API_KEY || ''} render={render}>
-          <Map center={center} zoom={zoom} mapId={mapId || ''} tilt={30} heading={0} />
-        </Wrapper>
-      </Grid>
-      <Grid item xs={12}>
-        <SwipeableEdgeDrawer />
-      </Grid>
-    </Grid>
+    <Box sx={{ height: '100vh', width: '100%' }}>
+      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_API_KEY || ''} render={render}>
+        {/* <Button compoent={RouterLink} to='/'>
+            Exit
+          </Button> */}
+        <Map center={center} zoom={zoom} mapId={mapId || ''} tilt={30} heading={0} />
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+          <SwipeableEdgeDrawer />
+
+          {/* <BottomNavigation
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue)
+            }}
+          >
+            <BottomNavigationAction label='Recents' icon={<RestoreIcon />} />
+            <BottomNavigationAction label='Favorites' icon={<FavoriteIcon />} />
+            <BottomNavigationAction label='Nearby' icon={<LocationOnIcon />} />
+          </BottomNavigation> */}
+        </Paper>
+      </Wrapper>
+    </Box>
   )
 }
 

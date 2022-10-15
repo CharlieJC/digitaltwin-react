@@ -51,9 +51,9 @@ export default function SwipeableEdgeDrawer() {
           },
         }}
       />
-      <Box sx={{ textAlign: 'center', pt: 1 }}>
+      {/* <Box sx={{ textAlign: 'center', pt: 1 }}>
         <Button onClick={toggleDrawer(true)}>Open</Button>
-      </Box>
+      </Box> */}
       <SwipeableDrawer
         container={container}
         anchor='bottom'

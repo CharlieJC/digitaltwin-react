@@ -1,7 +1,7 @@
 import React from 'react'
 import * as THREE from 'three'
 import { ThreeJSOverlayView } from '@googlemaps/three'
-
+import { useNavigate } from 'react-router-dom'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 interface MapProps extends google.maps.MapOptions {
@@ -16,26 +16,8 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [map, setMap] = React.useState<google.maps.Map>()
 
-  // const useAnimationFrame = (callback: (num: number) => void): void => {
-  //   // Use useRef for mutable variables that we want to persist
-  //   // without triggering a re-render on their change
-  //   const requestRef = React.useRef<number | undefined>()
-  //   const previousTimeRef = React.useRef<number | undefined>()
+  const navigate = useNavigate()
 
-  //   const animate = (time: number) => {
-  //     if (previousTimeRef.current !== undefined) {
-  //       const deltaTime = time - previousTimeRef.current
-  //       callback(deltaTime)
-  //     }
-  //     previousTimeRef.current = time
-  //     requestRef.current = requestAnimationFrame(animate)
-  //   }
-
-  //   React.useEffect(() => {
-  //     requestRef.current = requestAnimationFrame(animate)
-  //     return () => cancelAnimationFrame(requestRef.current || 0)
-  //   }, []) // Make sure the effect runs only once
-  // }
   const setWebGL = (targetMap: google.maps.Map) => {
     const scene = new THREE.Scene()
 
@@ -113,13 +95,47 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
         mapId,
         tilt,
         heading,
+        disableDefaultUI: true,
       })
       setWebGL(twinMap)
+
+      const controlButton = document.createElement('button')
+
+      // Set CSS for the control.
+      controlButton.style.backgroundColor = '#fff'
+      controlButton.style.border = '2px solid #fff'
+      controlButton.style.borderRadius = '3px'
+      controlButton.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)'
+      controlButton.style.color = 'rgb(25,25,25)'
+      controlButton.style.cursor = 'pointer'
+      controlButton.style.fontFamily = 'Roboto,Arial,sans-serif'
+      controlButton.style.fontSize = '16px'
+      controlButton.style.lineHeight = '38px'
+      controlButton.style.margin = '8px 0 22px'
+      controlButton.style.padding = '0 5px'
+      controlButton.style.textAlign = 'center'
+
+      controlButton.textContent = 'Exit Map'
+      controlButton.title = 'Click to recenter the map'
+      controlButton.type = 'button'
+
+      // Setup the click event listeners: simply set the map to Chicago.
+      controlButton.addEventListener('click', () => {
+        navigate('/')
+      })
+
+      // Create the DIV to hold the control.
+      const centerControlDiv = document.createElement('div')
+      // Append the control to the DIV.
+      centerControlDiv.appendChild(controlButton)
+
+      twinMap.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv)
+
       setMap(twinMap)
     }
   }, [ref, map])
 
-  return <div ref={ref} style={{ height: '100vh', width: '100%' }} />
+  return <div ref={ref} style={{ height: 'calc(100%)', width: '100%' }} />
 }
 
 export default Map
