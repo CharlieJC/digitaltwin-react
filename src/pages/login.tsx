@@ -4,27 +4,34 @@ import LoginForm from '../components/login-form'
 
 function LoginPage() {
   return (
-    <Grid container spacing={2} style={{ textAlign: 'center' }}>
-      <Grid item xs={12} style={{ textAlign: 'start' }}>
-        <Button component={RouterLink} to='/'>
-          Back
-        </Button>
+    <div>
+      <Button component={RouterLink} to='/' style={{ position: 'absolute' }}>
+        Back
+      </Button>
+
+      <Grid
+        container
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        style={{ minHeight: '100vh' }}
+      >
+        <Grid item xs={12}>
+          <h2>Login to your account!</h2>
+        </Grid>
+        <Grid item xs={12}>
+          <LoginForm />
+        </Grid>
+        <Grid item xs={12}>
+          <p>
+            Dont have an account?{' '}
+            <Link component={RouterLink} to='/register'>
+              Create account
+            </Link>
+          </p>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <h2>Login to your account!</h2>
-      </Grid>
-      <Grid item xs={12}>
-        <LoginForm />
-      </Grid>
-      <Grid item xs={12}>
-        <p>
-          Don&apost have an account?{' '}
-          <Link component={RouterLink} to='/register'>
-            Create account
-          </Link>
-        </p>
-      </Grid>
-    </Grid>
+    </div>
   )
 }
 

@@ -4,7 +4,13 @@ import ConnectForm from '../components/connect-form'
 
 function ConnectPage() {
   return (
-    <Grid container spacing={2} style={{ textAlign: 'center' }}>
+    <Grid
+      container
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      style={{ minHeight: '100vh' }}
+    >
       <Grid item xs={12}>
         <h2>Enter code to connect!</h2>
       </Grid>

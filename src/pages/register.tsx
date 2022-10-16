@@ -4,19 +4,25 @@ import RegisterForm from '../components/register-form'
 
 function RegisterPage() {
   return (
-    <Grid container spacing={2} style={{ textAlign: 'center' }}>
-      <Grid item xs={12} style={{ textAlign: 'start' }}>
-        <Button component={RouterLink} to='/login'>
-          Back
-        </Button>
+    <div>
+      <Button component={RouterLink} to='/login' style={{ position: 'absolute' }}>
+        Back
+      </Button>
+      <Grid
+        container
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        sx={{ minHeight: '100vh' }}
+      >
+        <Grid item xs={12}>
+          <h2>Create a new account!</h2>
+        </Grid>
+        <Grid item xs={12}>
+          <RegisterForm />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <h2>Create a new account!</h2>
-      </Grid>
-      <Grid item xs={12}>
-        <RegisterForm />
-      </Grid>
-    </Grid>
+    </div>
   )
 }
 
