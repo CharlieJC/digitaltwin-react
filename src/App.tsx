@@ -12,6 +12,7 @@ import ConnectPage from './pages/connect'
 import TwinPage from './pages/twin'
 
 // https://blog.testdouble.com/posts/2019-11-04-react-mvc/
+// https://vectr.com/design/editor/a4f48c30-9256-4c31-a00b-43caea5b2a9c
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')

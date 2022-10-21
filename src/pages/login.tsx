@@ -17,6 +17,9 @@ function LoginPage() {
         style={{ minHeight: '100vh' }}
       >
         <Grid item xs={12}>
+          <img src='logo500x175.png' alt='Logo' />
+        </Grid>
+        <Grid item xs={12}>
           <h2>Login to your account!</h2>
         </Grid>
         <Grid item xs={12}>

@@ -1,14 +1,16 @@
 import React from 'react'
 import * as THREE from 'three'
-import { ThreeJSOverlayView } from '@googlemaps/three'
+import { ThreeJSOverlayView, latLngToVector3Relative } from '@googlemaps/three'
 import { useNavigate } from 'react-router-dom'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Button, Paper } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { Canvas, useFrame } from '@react-three/fiber'
 import * as ReactDOM from 'react-dom/client'
+import { renderToStaticMarkup } from 'react-dom/server'
+import axios from 'axios'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 
 interface MapProps extends google.maps.MapOptions {
   center: google.maps.LatLngLiteral
@@ -19,6 +21,8 @@ interface MapProps extends google.maps.MapOptions {
 }
 
 const Map: React.FC<MapProps> = (props: MapProps) => {
+  const url = `${process.env.PUBLIC_URL}/scene.gltf`
+
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const theme = React.useMemo(
     () =>
@@ -31,37 +35,99 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
   )
 
   const ref = React.useRef<HTMLDivElement>(null)
-  // const sceneRef = React.useRef<THREE.Group>()
-
   const [map, setMap] = React.useState<google.maps.Map>()
 
   const navigate = useNavigate()
 
-  const styleMapControl = (button: HTMLButtonElement) => {
-    const controlButton = button
-    controlButton.style.backgroundColor = '#fff'
-    controlButton.style.border = '2px solid #fff'
-    controlButton.style.borderRadius = '3px'
-    controlButton.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)'
-    controlButton.style.color = 'rgb(25,25,25)'
-    controlButton.style.cursor = 'pointer'
-    controlButton.style.fontFamily = 'Roboto,Arial,sans-serif'
-    controlButton.style.fontSize = '16px'
-    controlButton.style.lineHeight = '38px'
-    controlButton.style.margin = '8px 0 22px'
-    controlButton.style.padding = '0 5px'
-    controlButton.style.textAlign = 'center'
-    return controlButton
-  }
+  const addVehicles = (scene: THREE.Scene, camera: THREE.Camera, loader: GLTFLoader) => {
+    const vehicles = [
+      [-36.84142666666666, 174.75067666666666],
+      [-36.88971, 174.98968],
+      [-36.841748333333335, 174.77657],
+      [-36.836755, 174.776135],
+      [-36.842275, 174.76574166666666],
+      [-36.841143333333335, 174.77600333333334],
+      [-36.789048333333334, 174.80939333333333],
+    ]
+    // 'Ocp-Apim-Subscription-Key': '80929cdb658b4504ad15d28cd150c541',
 
-  // useFrame((state, delta) => {
-  //   if (sceneRef.current === undefined) return
-  //   sceneRef.current.position.x += 1
-  // })
+    axios
+      .get('https://api.at.govt.nz/v2/public/realtime/vehiclelocations', {
+        headers: { 'Ocp-Apim-Subscription-Key': '80929cdb658b4504ad15d28cd150c541' },
+      })
+      .then((res) => {
+        let entities = res.data.response.entity
+        let count1 = 0
+        let count2 = 0
+        entities = entities.filter((entity: any) => {
+          const { id, vehicle } = entity
+
+          if (String(id).length !== 5) {
+            count1 += 1
+            return false
+          }
+
+          if (
+            vehicle.vehicle.license_plate === '' ||
+            vehicle.vehicle.license_plate === undefined ||
+            String(vehicle.vehicle.license_plate).length > 6
+          ) {
+            count2 += 1
+            return false
+          }
+          return true
+        })
+
+        entities.forEach((entity: any) => {
+          const lat = entity.vehicle.position.latitude
+          const lng = entity.vehicle.position.longitude
+          const { center } = props
+          const polar = new google.maps.LatLng(lat, lng)
+          const relativeMeters = latLngToVector3Relative(polar, center)
+          const box = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 2), new THREE.MeshNormalMaterial())
+
+          const output = document.createElement('div')
+          const staticElement = renderToStaticMarkup(<p>Test</p>)
+          output.innerHTML = `<div>${staticElement}</div>`
+          const textObj = new CSS2DObject(output)
+          textObj.position.copy(relativeMeters)
+          textObj.position.z += 10
+          scene.add(textObj)
+          // const cssRenderer = new CSS2DRenderer({ element: output })
+          // cssRenderer.pos
+          // cssRenderer.render(scene, camera)
+          box.position.copy(relativeMeters)
+          box.scale.set(10, 10, 10)
+          scene.add(box)
+          // loader.load(url, (gltf) => {
+          //   gltf.scene.scale.set(0.5, 0.5, 0.5)
+          //   const bus = gltf.scene
+          //   bus.position.copy(relativeMeters)
+
+          //   scene.add(bus)
+
+          //   const animate = () => {
+          //     // test.rotateY(0.00174533)
+          //     // bus.translateX(0.01)
+
+          //     requestAnimationFrame(animate)
+          //   }
+          //   requestAnimationFrame(animate)
+          // })
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    // vehicles.forEach((position) => {
+
+    // })
+  }
 
   const setWebGL = (targetMap: google.maps.Map) => {
     const scene = new THREE.Scene()
-
+    const camera = new THREE.PerspectiveCamera()
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.75)
 
     scene.add(ambientLight)
@@ -74,31 +140,8 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
     // Load the model.
     const loader = new GLTFLoader()
     // const url = 'https://raw.githubusercontent.com/googlemaps/js-samples/main/assets/pin.gltf'
-    const url = `${process.env.PUBLIC_URL}/scene.gltf`
 
-    let test: THREE.Group
-
-    // eslint-disable-next-line no-plusplus
-    loader.load(url, (gltf) => {
-      gltf.scene.scale.set(0.2, 0.2, 0.2)
-      // eslint-disable-next-line no-param-reassign
-      // gltf.scene.rotation.x = Math.PI / 2
-      // eslint-disable-next-line no-param-reassign
-      // gltf.scene.position.x += 50 * i
-      // eslint-disable-next-line no-param-reassign
-      // gltf.scene.position.setY(-100)
-      // sceneRef.current = gltf.scene
-      test = gltf.scene
-      scene.add(test)
-
-      const animate = () => {
-        // test.rotateY(0.00174533)
-        test.translateX(0.01)
-
-        requestAnimationFrame(animate)
-      }
-      requestAnimationFrame(animate)
-    })
+    addVehicles(scene, camera, loader)
 
     const box = new THREE.Mesh(new THREE.BoxGeometry(100, 500, 100), new THREE.MeshNormalMaterial())
     // scene.add(box)
