@@ -59,7 +59,8 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
         let entities = res.data.response.entity
         let count1 = 0
         let count2 = 0
-        entities = entities.filter((entity) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        entities = entities.filter((entity: any) => {
           const { id, vehicle } = entity
 
           if (String(id).length !== 5) {
@@ -78,7 +79,8 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
           return true
         })
 
-        entities.forEach((entity) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        entities.forEach((entity: any) => {
           const lat = entity.vehicle.position.latitude
           const lng = entity.vehicle.position.longitude
           const { center } = props
