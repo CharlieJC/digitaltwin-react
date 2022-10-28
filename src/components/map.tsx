@@ -76,6 +76,10 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
             count2 += 1
             return false
           }
+
+          if (vehicle.trip === undefined) {
+            return false
+          }
           return true
         })
 
