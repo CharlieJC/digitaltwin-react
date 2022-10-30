@@ -31,7 +31,6 @@ const loginForm = () => {
         if (data.token) {
           localStorage.setItem('token', data.token)
           navigate('/dashboard')
-          window.location.reload()
         }
       })
   }
