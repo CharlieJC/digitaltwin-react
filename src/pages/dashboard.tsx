@@ -48,7 +48,7 @@ const DashboardPage: React.FC<DashboardProps> = (props: DashboardProps) => {
     const token = localStorage.getItem('token')
     if (token == null || token === undefined) return
     fetch(
-      `http://127.0.0.1:5000/api/twins/?${new URLSearchParams({
+      `${process.env.REACT_APP_API_HOST}api/twins/?${new URLSearchParams({
         secret_token: token,
       })}`,
       {
