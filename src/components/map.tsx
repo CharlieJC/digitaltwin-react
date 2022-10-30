@@ -8,9 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import * as ReactDOM from 'react-dom/client'
-import { renderToStaticMarkup } from 'react-dom/server'
 import axios from 'axios'
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 
 interface MapProps extends google.maps.MapOptions {
   center: google.maps.LatLngLiteral
@@ -39,6 +37,60 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
 
   const navigate = useNavigate()
 
+  const addStops = (scene: THREE.Scene) => {
+    axios
+      .get('https://api.at.govt.nz/v2/gtfs/stops', {
+        headers: { 'Ocp-Apim-Subscription-Key': '80929cdb658b4504ad15d28cd150c541' },
+      })
+      .then((res) => {
+        const stops = res.data.response
+        stops.forEach((stop: any) => {
+          const lat = stop.stop_lat
+          const lon = stop.stop_lon
+          // eslint-disable-next-line @typescript-eslint/naming-convention, prefer-destructuring
+          const parent_station = stop.parent_station
+
+          if (parent_station !== null) {
+            return
+          }
+
+          const { center } = props
+          const polar = new google.maps.LatLng(lat, lon)
+          const relativeMeters = latLngToVector3Relative(polar, center)
+
+          const stopObject = new THREE.Mesh(
+            new THREE.SphereGeometry(5),
+            new THREE.MeshDepthMaterial(),
+          )
+
+          // const distance = scene.add(textObj)
+          stopObject.position.copy(relativeMeters)
+          scene.add(stopObject)
+          const animateBox = () => {
+            stopObject.rotateY(0.005)
+
+            requestAnimationFrame(animateBox)
+          }
+          requestAnimationFrame(animateBox)
+          // loader.load(url, (gltf) => {
+          //   gltf.scene.scale.set(0.5, 0.5, 0.5)
+          //   const bus = gltf.scene
+          //   bus.position.copy(relativeMeters)
+
+          //   scene.add(bus)
+
+          //   const animate = () => {
+          //     // test.rotateY(0.00174533)
+          //     // bus.translateX(0.01)
+
+          //     requestAnimationFrame(animate)
+          //   }
+          //   requestAnimationFrame(animate)
+          // })
+        })
+      })
+  }
+
   const addVehicles = (scene: THREE.Scene, camera: THREE.Camera, loader: GLTFLoader) => {
     const vehicles = [
       [-36.84142666666666, 174.75067666666666],
@@ -50,6 +102,7 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
       [-36.789048333333334, 174.80939333333333],
     ]
     // 'Ocp-Apim-Subscription-Key': '80929cdb658b4504ad15d28cd150c541',
+    console.log('GOT HERE')
 
     axios
       .get('https://api.at.govt.nz/v2/public/realtime/vehiclelocations', {
@@ -92,43 +145,13 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
           const relativeMeters = latLngToVector3Relative(polar, center)
           const box = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 2), new THREE.MeshNormalMaterial())
 
-          const output = document.createElement('div')
-          const staticElement = renderToStaticMarkup(<p>Test</p>)
-          output.innerHTML = `<div>${staticElement}</div>`
-          const textObj = new CSS2DObject(output)
-          textObj.position.copy(relativeMeters)
-          textObj.position.z += 10
-          scene.add(textObj)
-          // const cssRenderer = new CSS2DRenderer({ element: output })
-          // cssRenderer.pos
-          // cssRenderer.render(scene, camera)
+          // const distance = scene.add(textObj)
           box.position.copy(relativeMeters)
-          box.scale.set(10, 10, 10)
+          box.scale.set(5, 5, 5)
           scene.add(box)
-          // loader.load(url, (gltf) => {
-          //   gltf.scene.scale.set(0.5, 0.5, 0.5)
-          //   const bus = gltf.scene
-          //   bus.position.copy(relativeMeters)
-
-          //   scene.add(bus)
-
-          //   const animate = () => {
-          //     // test.rotateY(0.00174533)
-          //     // bus.translateX(0.01)
-
-          //     requestAnimationFrame(animate)
-          //   }
-          //   requestAnimationFrame(animate)
-          // })
         })
       })
-      .catch((err) => {
-        // console.err(err)
-      })
-
-    // vehicles.forEach((position) => {
-
-    // })
+      .catch((err) => {})
   }
 
   const setWebGL = (targetMap: google.maps.Map) => {
@@ -148,10 +171,7 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
     // const url = 'https://raw.githubusercontent.com/googlemaps/js-samples/main/assets/pin.gltf'
 
     addVehicles(scene, camera, loader)
-
-    const box = new THREE.Mesh(new THREE.BoxGeometry(100, 500, 100), new THREE.MeshNormalMaterial())
-    // scene.add(box)
-
+    addStops(scene)
     // eslint-disable-next-line no-new
     new ThreeJSOverlayView({
       map: targetMap,

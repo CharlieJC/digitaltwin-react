@@ -1,18 +1,7 @@
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
-import {
-  CircularProgress,
-  Alert,
-  Box,
-  Paper,
-  BottomNavigation,
-  BottomNavigationAction,
-} from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
+import { CircularProgress, Alert, Box, Paper } from '@mui/material'
 import * as React from 'react'
 import { ReactElement } from 'react'
-import RestoreIcon from '@mui/icons-material/Restore'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
 import SwipeableEdgeDrawer from '../components/twin-drawer-small'
 import Map from '../components/map'
 
