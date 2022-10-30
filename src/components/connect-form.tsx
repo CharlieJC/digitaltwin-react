@@ -25,7 +25,6 @@ const connectForm = () => {
       .then((data) => {
         if (data.valid === true) {
           navigate('/twin')
-          window.location.reload()
         }
       })
   }
