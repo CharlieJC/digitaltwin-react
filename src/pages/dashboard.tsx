@@ -19,7 +19,6 @@ const DashboardPage: React.FC<DashboardProps> = (props: DashboardProps) => {
   useEffect(() => {
     const { id } = props
     if (id === '') {
-      console.log('ID IS EMPTY')
       return
     }
     const token = localStorage.getItem('token')

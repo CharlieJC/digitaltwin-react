@@ -44,6 +44,7 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
       })
       .then((res) => {
         const stops = res.data.response
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         stops.forEach((stop: any) => {
           const lat = stop.stop_lat
           const lon = stop.stop_lon
@@ -102,7 +103,6 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
       [-36.789048333333334, 174.80939333333333],
     ]
     // 'Ocp-Apim-Subscription-Key': '80929cdb658b4504ad15d28cd150c541',
-    console.log('GOT HERE')
 
     axios
       .get('https://api.at.govt.nz/v2/public/realtime/vehiclelocations', {
