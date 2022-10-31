@@ -60,7 +60,7 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/twin' element={<TwinPage />} />
-          <Route path='/dashboard' element={<DashboardPage id={userInfo.id} />} />
+          <Route path='/dashboard' element={<DashboardPage />} />
         </Routes>
       </Router>
     </ThemeProvider>

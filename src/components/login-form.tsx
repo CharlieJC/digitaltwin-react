@@ -15,6 +15,7 @@ const loginForm = () => {
       password: (form.password as HTMLInputElement).value,
     }
     localStorage.removeItem('token')
+    localStorage.removeItem('id')
 
     fetch(`${process.env.REACT_APP_API_HOST}api/auth/login`, {
       method: 'POST',
@@ -29,6 +30,8 @@ const loginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
+          localStorage.setItem('id', data.body.id)
+
           localStorage.setItem('token', data.token)
           navigate('/dashboard')
         }

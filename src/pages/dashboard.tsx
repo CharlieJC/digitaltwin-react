@@ -4,24 +4,20 @@ import { Link as RouterLink } from 'react-router-dom'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DashboardTwinCard from '../components/dashboard-card'
 
-type DashboardProps = {
-  id: string
-}
-
 type TwinDataState = {
   id: string
   code: number
   ownerId: string
 }
-const DashboardPage: React.FC<DashboardProps> = (props: DashboardProps) => {
+const DashboardPage = () => {
   const [twins, setTwins] = useState<TwinDataState[]>()
 
   useEffect(() => {
-    const { id } = props
-    if (id === '') {
+    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('id')
+    if (id === '' || id === null) {
       return
     }
-    const token = localStorage.getItem('token')
     if (token == null || token === undefined) return
     fetch(
       `${process.env.REACT_APP_API_HOST}api/twins/allByOwner?${new URLSearchParams({
@@ -44,7 +40,10 @@ const DashboardPage: React.FC<DashboardProps> = (props: DashboardProps) => {
   })
 
   const onCreate = () => {
-    const { id } = props
+    const id = localStorage.getItem('id')
+    if (id === '' || id === null) {
+      return
+    }
     const token = localStorage.getItem('token')
     if (token == null || token === undefined) return
     fetch(
