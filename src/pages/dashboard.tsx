@@ -10,6 +10,8 @@ type TwinDataState = {
   ownerId: string
 }
 const DashboardPage = () => {
+  const [value, setValue] = useState('')
+
   const [twins, setTwins] = useState<TwinDataState[]>()
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const DashboardPage = () => {
       .then((data) => {
         setTwins(data)
       })
-  })
+  }, [value])
 
   const onCreate = () => {
     const id = localStorage.getItem('id')

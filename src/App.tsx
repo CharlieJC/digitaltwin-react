@@ -14,33 +14,8 @@ import DashboardPage from './pages/dashboard'
 
 // https://blog.testdouble.com/posts/2019-11-04-react-mvc/
 // https://vectr.com/design/editor/a4f48c30-9256-4c31-a00b-43caea5b2a9c
-interface UserInfo {
-  id: string
-  email: string
-  username: string
-}
+
 function App() {
-  const [userInfo, setUserInfo] = useState<UserInfo>({ id: '', email: '', username: '' })
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token == null || token === undefined) return
-    fetch(
-      `${process.env.REACT_APP_API_HOST}api/auth/isAuth?${new URLSearchParams({
-        secret_token: token,
-      })}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const { id, email, username } = data.user
-        if (id === '') {
-          localStorage.removeItem('token')
-          return
-        }
-        setUserInfo({ id, email, username })
-      })
-  }, [])
-
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const theme = React.useMemo(
     () =>

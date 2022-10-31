@@ -67,12 +67,12 @@ const Map: React.FC<MapProps> = (props: MapProps) => {
           // const distance = scene.add(textObj)
           stopObject.position.copy(relativeMeters)
           scene.add(stopObject)
-          const animateBox = () => {
-            stopObject.rotateY(0.005)
+          // const animateBox = () => {
+          //   stopObject.rotateY(0.005)
 
-            requestAnimationFrame(animateBox)
-          }
-          requestAnimationFrame(animateBox)
+          //   requestAnimationFrame(animateBox)
+          // }
+          // requestAnimationFrame(animateBox)
           // loader.load(url, (gltf) => {
           //   gltf.scene.scale.set(0.5, 0.5, 0.5)
           //   const bus = gltf.scene
