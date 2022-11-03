@@ -10,7 +10,10 @@ type TwinDataState = {
   ownerId: string
 }
 const DashboardPage = () => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<boolean>(true)
+  const refresh = () => {
+    setValue(!value)
+  }
 
   const [twins, setTwins] = useState<TwinDataState[]>()
 
@@ -61,7 +64,9 @@ const DashboardPage = () => {
           ownerId: id,
         }),
       },
-    )
+    ).then(() => {
+      refresh()
+    })
   }
 
   return (
@@ -78,7 +83,7 @@ const DashboardPage = () => {
       >
         {twins?.map((twin) => (
           <Grid item key={twin.id} xs={12} sx={{ p: 1 }}>
-            <DashboardTwinCard code={twin.code} id={twin.id} />
+            <DashboardTwinCard code={twin.code} id={twin.id} refresh={refresh} />
           </Grid>
         ))}
 

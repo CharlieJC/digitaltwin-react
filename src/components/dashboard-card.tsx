@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 type TwinCardProps = {
   id: string
   code: number
+  refresh: () => void
 }
 
 export default function DashboardTwinCard(props: TwinCardProps) {
@@ -37,7 +38,10 @@ export default function DashboardTwinCard(props: TwinCardProps) {
           id,
         }),
       },
-    )
+    ).then(() => {
+      const { refresh } = props
+      refresh()
+    })
   }
 
   return (
