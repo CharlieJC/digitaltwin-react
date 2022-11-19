@@ -3,12 +3,11 @@ import * as THREE from 'three'
 import { ThreeJSOverlayView, latLngToVector3Relative } from '@googlemaps/three'
 import { useNavigate } from 'react-router-dom'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { Button, Paper } from '@mui/material'
+import { Button, Paper, ThemeProvider } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import * as ReactDOM from 'react-dom/client'
 import axios from 'axios'
+import dtTheme from '../../theme'
 
 interface MapProps extends google.maps.MapOptions {
   center: google.maps.LatLngLiteral
@@ -19,18 +18,8 @@ interface MapProps extends google.maps.MapOptions {
 }
 
 const Map: React.FC<MapProps> = (props: MapProps) => {
+  const theme = dtTheme()
   const url = `${process.env.PUBLIC_URL}/scene.gltf`
-
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
-    [prefersDarkMode],
-  )
 
   const ref = React.useRef<HTMLDivElement>(null)
   const [map, setMap] = React.useState<google.maps.Map>()

@@ -27,7 +27,8 @@
     "react/function-component-definition": "off",
     "no-underscore-dangle": 0,
     "prefer-regex-literals": 0,
-    "@typescript-eslint/no-unused-vars": 0
+    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/lines-between-class-members": "off"
   },
   "settings": {
     "import/resolver": {

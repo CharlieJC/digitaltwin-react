@@ -1,6 +1,6 @@
 import { Grid, Button, Link } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-import LoginForm from '../components/login-form'
+import LoginFormController from '../../controllers/login/login-form-controller'
 
 function LoginPage() {
   return (
@@ -23,7 +23,7 @@ function LoginPage() {
           <h2>Login to your account!</h2>
         </Grid>
         <Grid item xs={12}>
-          <LoginForm />
+          <LoginFormController />
         </Grid>
         <Grid item xs={12}>
           <p>
