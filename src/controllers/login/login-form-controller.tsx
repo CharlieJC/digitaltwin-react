@@ -4,7 +4,7 @@ import LoginForm from '../../components/login/login-form'
 import { loginUser } from '../../models/auth-model'
 import { UserContext } from '../../user-context'
 
-const LoginFormController = () => {
+const RegisterFormController = () => {
   const { userData, setUserData, processToken } = React.useContext(UserContext)
   const navigate = useNavigate()
 
@@ -17,11 +17,8 @@ const LoginFormController = () => {
     }
 
     const fetchData = async () => {
-      console.log(`email: ${credentials.email} password: ${credentials.password}`)
       const { token, user } = await loginUser(credentials.email, credentials.password)
-      console.log('GOT HERE??? TOO')
 
-      console.log(`Token: ${token} User: ${user}`)
       if (token && user) {
         localStorage.removeItem('token')
         localStorage.setItem('token', token)
@@ -31,14 +28,13 @@ const LoginFormController = () => {
     }
 
     fetchData()
-      // .then((user) => {
-      //   console.log('GOT HERE')
-      //   // setUserData({ loggedIn: true, user })
-      //   // navigate('/dashboard')
-      // })
+      .then((user) => {
+        navigate('/dashboard')
+        setUserData({ loggedIn: true, user })
+      })
       .catch(console.error)
   }
   return <LoginForm handleLogin={handleLogin} />
 }
 
-export default LoginFormController
+export default RegisterFormController

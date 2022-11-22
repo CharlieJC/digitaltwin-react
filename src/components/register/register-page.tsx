@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { Grid, Button } from '@mui/material'
-import RegisterForm from '../components/register-form'
+import RegisterFormController from '../../controllers/register/register-form-controller'
 
 function RegisterPage() {
   return (
@@ -22,7 +22,7 @@ function RegisterPage() {
           <h2>Create a new account!</h2>
         </Grid>
         <Grid item xs={12}>
-          <RegisterForm />
+          <RegisterFormController />
         </Grid>
       </Grid>
     </div>

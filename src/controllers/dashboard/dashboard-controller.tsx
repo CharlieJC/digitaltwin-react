@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react'
 import * as React from 'react'
-import { Twin, fetchTwins, createTwin } from '../../models/dashboard-model'
+import { Twin, fetchTwins, createTwin } from '../../models/twin-model'
 import DashboardPage from '../../components/dashboard/dashboard-page'
 import { UserContext } from '../../user-context'
 
 const DashboardController = () => {
-  const [value, setValue] = useState<boolean>()
+  // const [value, setValue] = useState<boolean>()
   const { userData, setUserData, processToken } = React.useContext(UserContext)
-
-  const refresh = () => {
-    setValue(!value)
-  }
-
+  const { loggedIn, user } = userData
   const [twins, setTwins] = useState<Twin[]>()
 
+  const removeTwin = (id: string) => {
+    if (!twins) return
+    setTwins(twins.filter((twin) => twin.id !== id))
+  }
+
   useEffect(() => {
+    if (!loggedIn || !user) return
     const token = localStorage.getItem('token')
-    const id = localStorage.getItem('id')
+    const { id } = user
     if (id === '' || id === null) {
       return
     }
@@ -28,25 +30,36 @@ const DashboardController = () => {
     }
 
     fetchData().catch(console.error)
-  }, [value])
+  }, [])
 
   const onCreate = () => {
-    const id = localStorage.getItem('id')
+    if (!loggedIn || !user) return
+    const token = localStorage.getItem('token')
+    const { id } = user
     if (id === '' || id === null) {
       return
     }
-    const token = localStorage.getItem('token')
     if (token == null || token === undefined) return
 
     const fetchData = async () => {
       const twinData = await createTwin(token, id)
-      refresh()
+      return twinData
     }
 
-    fetchData().catch(console.error)
+    fetchData()
+      .then((twin) => {
+        if (!twin) return
+
+        if (!twins) {
+          setTwins([twin])
+        } else {
+          setTwins([...twins, twin])
+        }
+      })
+      .catch(console.error)
   }
 
-  return <DashboardPage twins={twins} onCreate={onCreate} refresh={refresh} />
+  return <DashboardPage twins={twins} onCreate={onCreate} removeTwin={removeTwin} />
 }
 
 export default DashboardController

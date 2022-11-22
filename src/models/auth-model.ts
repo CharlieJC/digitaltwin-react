@@ -25,13 +25,9 @@ const loginUser = async (email: string, password: string): Promise<TokenUserResp
       password,
     }),
   })
-    .then((res) => {
-      console.log('TEST 123')
-      return res.json()
-    })
+    .then((res) => res.json())
     .then((data) => {
-      console.log('HAHA GOT HERE')
-      const response: TokenUserResponse = { token: data.token, user: data.body.user }
+      const response: TokenUserResponse = { token: data.token, user: data.user }
       return response
     })
 
@@ -63,4 +59,4 @@ const verifyToken = async (auth_token: string): Promise<User | undefined> => {
     .then((data) => data.user)
 }
 
-export { User, loginUser, verifyToken }
+export { User, loginUser, registerUser, verifyToken }

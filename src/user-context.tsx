@@ -29,7 +29,10 @@ const UserContextProvider = (props: UserContextProviderProps) => {
     }
     fetchData().catch(console.error)
   }
-  const userContextValues = React.useMemo(() => ({ userData, setUserData, processToken }), [])
+  const userContextValues = React.useMemo(
+    () => ({ userData, setUserData, processToken }),
+    [userData],
+  )
   return <UserContext.Provider value={userContextValues}>{children}</UserContext.Provider>
 }
 

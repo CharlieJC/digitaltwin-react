@@ -2,8 +2,8 @@ import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import { CircularProgress, Alert, Box, Paper } from '@mui/material'
 import * as React from 'react'
 import { ReactElement } from 'react'
-import SwipeableEdgeDrawer from '../components/twin/twin-drawer-small'
-import Map from '../components/twin/map'
+import SwipeableEdgeDrawer from './twin/twin-drawer-small'
+import Map from './twin/map'
 
 function TwinPage() {
   const [value, setValue] = React.useState(0)

@@ -1,6 +1,6 @@
 import { Grid, Link, Button } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-import ConnectForm from '../components/connect-form'
+import ConnectFormController from '../../controllers/connect/connect-form-controller'
 
 function ConnectPage() {
   return (
@@ -19,7 +19,7 @@ function ConnectPage() {
           <h2>Enter code to connect!</h2>
         </Grid>
         <Grid item xs={12}>
-          <ConnectForm />
+          <ConnectFormController />
         </Grid>
         <Grid item xs={12}>
           <p>

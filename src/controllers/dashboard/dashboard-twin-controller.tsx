@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom'
-import { deleteTwin } from '../../models/dashboard-model'
+import { deleteTwin } from '../../models/twin-model'
 import DashboardTwin from '../../components/dashboard/dashboard-twin'
 
 type TwinControllerProps = {
   id: string
   code: number
-  refresh: () => void
+  removeTwin: (id: string) => void
 }
 
 const DashboardTwinController = (props: TwinControllerProps) => {
-  const { id, code, refresh } = props
+  const { id, code, removeTwin } = props
   const navigate = useNavigate()
 
   const onConnect = () => {
@@ -21,7 +21,7 @@ const DashboardTwinController = (props: TwinControllerProps) => {
     if (token == null || token === undefined) return
     const fetchData = async () => {
       const twinsData = await deleteTwin(token, id)
-      refresh()
+      removeTwin(id)
     }
 
     fetchData().catch(console.error)

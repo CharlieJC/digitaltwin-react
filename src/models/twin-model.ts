@@ -67,4 +67,17 @@ const deleteTwin = async (auth_token: string, twinId: string): Promise<Twin | un
     .then((res) => res.json())
     .then((twin: Twin) => twin)
 }
-export { Twin, fetchTwins, createTwin, deleteTwin }
+
+const verifyCode = async (code: number): Promise<Twin | undefined> =>
+  fetch(`${process.env.REACT_APP_API_HOST}api/twins/validcode`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      code: String(code),
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data.twin)
+export { Twin, fetchTwins, createTwin, deleteTwin, verifyCode }
