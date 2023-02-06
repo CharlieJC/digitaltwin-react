@@ -14,7 +14,7 @@ const fetchTwins = async (auth_token: string, ownerId: string): Promise<Twin[]> 
   const params = new URLSearchParams({
     secret_token: auth_token,
   })
-  return fetch(`${process.env.REACT_APP_API_HOST}api/twins/allByOwner?${params}`, {
+  return fetch(`${process.env.REACT_APP_API_HOST}api/twin/allByOwner?${params}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -27,7 +27,7 @@ const fetchTwins = async (auth_token: string, ownerId: string): Promise<Twin[]> 
     .then((data) => {
       const twins: Twin[] = []
 
-      data.forEach((twin: Twin) => {
+      data.twins.forEach((twin: Twin) => {
         twins.push(twin)
       })
       return twins
@@ -38,7 +38,7 @@ const createTwin = async (auth_token: string, ownerId: string): Promise<Twin | u
   const params = new URLSearchParams({
     secret_token: auth_token,
   })
-  return fetch(`${process.env.REACT_APP_API_HOST}api/twins/?${params}`, {
+  return fetch(`${process.env.REACT_APP_API_HOST}api/twin/?${params}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,14 +48,14 @@ const createTwin = async (auth_token: string, ownerId: string): Promise<Twin | u
     }),
   })
     .then((res) => res.json())
-    .then((twin: Twin) => twin)
+    .then((data) => data.twin)
 }
 
 const deleteTwin = async (auth_token: string, twinId: string): Promise<Twin | undefined> => {
   const params = new URLSearchParams({
     secret_token: auth_token,
   })
-  return fetch(`${process.env.REACT_APP_API_HOST}api/twins/delete?${params}`, {
+  return fetch(`${process.env.REACT_APP_API_HOST}api/twin/delete?${params}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,7 +69,7 @@ const deleteTwin = async (auth_token: string, twinId: string): Promise<Twin | un
 }
 
 const verifyCode = async (code: number): Promise<Twin | undefined> =>
-  fetch(`${process.env.REACT_APP_API_HOST}api/twins/validcode`, {
+  fetch(`${process.env.REACT_APP_API_HOST}api/twin/validcode`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

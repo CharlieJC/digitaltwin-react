@@ -30,7 +30,7 @@ const DashboardController = () => {
     }
 
     fetchData().catch(console.error)
-  }, [])
+  }, [userData])
 
   const onCreate = () => {
     if (!loggedIn || !user) return

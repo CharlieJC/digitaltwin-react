@@ -36,7 +36,7 @@ const registerUser = async (
   username: string,
   password: string,
 ): Promise<User | undefined> =>
-  fetch(`${process.env.REACT_APP_API_HOST}api/auth/signup`, {
+  fetch(`${process.env.REACT_APP_API_HOST}api/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,7 +54,7 @@ const verifyToken = async (auth_token: string): Promise<User | undefined> => {
   const params = new URLSearchParams({
     secret_token: auth_token,
   })
-  return fetch(`${process.env.REACT_APP_API_HOST}api/auth/isAuth?${params}`)
+  return fetch(`${process.env.REACT_APP_API_HOST}api/auth/verifyIdentity?${params}`)
     .then((res) => res.json())
     .then((data) => data.user)
 }
