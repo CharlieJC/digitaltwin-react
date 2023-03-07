@@ -29,18 +29,21 @@ function App() {
         <Routes>
           <Route
             path='/'
-            element={userData ? <Navigate to='/dashboard' /> : <ConnectController />}
+            element={userData.loggedIn ? <Navigate to='/dashboard' /> : <ConnectController />}
           />
           <Route
             path='/login'
-            element={userData ? <Navigate to='/dashboard' /> : <LoginController />}
+            element={userData.loggedIn ? <Navigate to='/dashboard' /> : <LoginController />}
           />
           <Route
             path='/register'
-            element={userData ? <Navigate to='/dashboard' /> : <RegisterController />}
+            element={userData.loggedIn ? <Navigate to='/dashboard' /> : <RegisterController />}
           />
           <Route path='/twin' element={<TwinPage />} />
-          <Route path='/dashboard' element={<DashboardController />} />
+          <Route
+            path='/dashboard'
+            element={userData.loggedIn ? <DashboardController /> : <Navigate to='/login' />}
+          />
         </Routes>
       </Router>
     </ThemeProvider>

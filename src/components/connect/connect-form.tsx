@@ -3,7 +3,7 @@ import { TextField, Button, Grid, Box } from '@mui/material'
 type ConnectFormProps = {
   handleConnect: (e: React.FormEvent<HTMLFormElement>) => void
 }
-const ConnectForm = (props: ConnectFormProps) => {
+const ConnectForm: React.FC<ConnectFormProps> = (props: ConnectFormProps) => {
   const { handleConnect } = props
 
   return (

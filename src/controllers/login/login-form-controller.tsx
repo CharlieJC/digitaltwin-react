@@ -4,7 +4,7 @@ import LoginForm from '../../components/login/login-form'
 import { loginUser } from '../../models/auth-model'
 import { UserContext } from '../../user-context'
 
-const RegisterFormController = () => {
+const LoginFormController = () => {
   const { userData, setUserData, processToken } = React.useContext(UserContext)
   const navigate = useNavigate()
 
@@ -37,4 +37,4 @@ const RegisterFormController = () => {
   return <LoginForm handleLogin={handleLogin} />
 }
 
-export default RegisterFormController
+export default LoginFormController

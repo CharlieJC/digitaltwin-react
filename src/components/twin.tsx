@@ -20,31 +20,7 @@ function TwinPage() {
     return <CircularProgress />
   }
 
-  return (
-    <Box sx={{ height: '100vh', width: '100%' }}>
-      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_API_KEY || ''} render={render}>
-        {/* <Button compoent={RouterLink} to='/'>
-            Exit
-          </Button> */}
-        <Map center={center} zoom={zoom} mapId={mapId || ''} tilt={30} heading={0} />
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-          <SwipeableEdgeDrawer />
-
-          {/* <BottomNavigation
-            showLabels
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue)
-            }}
-          >
-            <BottomNavigationAction label='Recents' icon={<RestoreIcon />} />
-            <BottomNavigationAction label='Favorites' icon={<FavoriteIcon />} />
-            <BottomNavigationAction label='Nearby' icon={<LocationOnIcon />} />
-          </BottomNavigation> */}
-        </Paper>
-      </Wrapper>
-    </Box>
-  )
+  return <Map />
 }
 
 export default TwinPage
