@@ -10,6 +10,7 @@ test('handleConnect is called on submit', () => {
   render(<ConnectForm handleConnect={handleConnect} />)
   fireEvent.submit(screen.getByText('Connect'))
   expect(handleConnect).toBeCalled()
+  // test
 })
 
 // https://betterprogramming.pub/using-jest-mocks-typescript-the-right-way-da025da7a284
