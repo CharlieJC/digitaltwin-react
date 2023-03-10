@@ -1,21 +1,16 @@
 import { Grid, Button, Link } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-import LoginForm from '../components/login-form'
+import LoginFormController from '../../controllers/login/login-form-controller'
+import PageWrapper from '../../page-wrapper'
 
 function LoginPage() {
   return (
-    <div>
-      <Button component={RouterLink} to='/' style={{ position: 'absolute' }}>
+    <PageWrapper>
+      <Button component={RouterLink} to='/'>
         Back
       </Button>
 
-      <Grid
-        container
-        direction='column'
-        justifyContent='center'
-        alignItems='center'
-        style={{ minHeight: '100vh' }}
-      >
+      <Grid container direction='column' justifyContent='center' alignItems='center'>
         <Grid item xs={12}>
           <img src='logo500x175.png' alt='Logo' />
         </Grid>
@@ -23,7 +18,7 @@ function LoginPage() {
           <h2>Login to your account!</h2>
         </Grid>
         <Grid item xs={12}>
-          <LoginForm />
+          <LoginFormController />
         </Grid>
         <Grid item xs={12}>
           <p>
@@ -34,7 +29,7 @@ function LoginPage() {
           </p>
         </Grid>
       </Grid>
-    </div>
+    </PageWrapper>
   )
 }
 

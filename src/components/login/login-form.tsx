@@ -2,41 +2,15 @@
 // import { useNavigate } from "react-router-dom";
 
 import { TextField, Button, Grid, Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import * as React from 'react'
+import { UserContext } from '../../user-context'
 
-const loginForm = () => {
-  const navigate = useNavigate()
+type LoginFormProps = {
+  handleLogin: (e: React.FormEvent<HTMLFormElement>) => void
+}
+const LoginForm = (props: LoginFormProps) => {
+  const { handleLogin } = props
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    const form = e.target as HTMLFormElement
-    const user = {
-      email: (form.email as HTMLInputElement).value,
-      password: (form.password as HTMLInputElement).value,
-    }
-    localStorage.removeItem('token')
-    localStorage.removeItem('id')
-
-    fetch(`${process.env.REACT_APP_API_HOST}api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        email: user.email,
-        password: user.password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem('id', data.body.id)
-
-          localStorage.setItem('token', data.token)
-          navigate('/dashboard')
-        }
-      })
-  }
   return (
     <Box display='flex' justifyContent='center' alignItems='center' sx={{ display: 'flex' }}>
       <form onSubmit={(event) => handleLogin(event)}>
@@ -71,4 +45,4 @@ const loginForm = () => {
   )
 }
 
-export default loginForm
+export default LoginForm

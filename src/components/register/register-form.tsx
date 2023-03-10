@@ -3,35 +3,11 @@
 import { TextField, Button, Grid, Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-function RegisterForm() {
-  const navigate = useNavigate()
-
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    const form = e.target as HTMLFormElement
-    const user = {
-      email: (form.email as HTMLInputElement).value,
-      username: (form.username as HTMLInputElement).value,
-      password: (form.password as HTMLInputElement).value,
-    }
-
-    fetch(`${process.env.REACT_APP_API_HOST}api/auth/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        email: user.email,
-        username: user.username,
-        password: user.password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        navigate('/login')
-      })
-  }
-
+type RegisterFormProps = {
+  handleRegister: (e: React.FormEvent<HTMLFormElement>) => void
+}
+function RegisterForm(props: RegisterFormProps) {
+  const { handleRegister } = props
   return (
     <Box display='flex' justifyContent='center' alignItems='center' sx={{ display: 'flex' }}>
       <form onSubmit={(event) => handleRegister(event)}>
